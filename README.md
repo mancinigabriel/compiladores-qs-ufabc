@@ -19,3 +19,21 @@ próxima do Português estruturado.
 	- Importante: https://drive.google.com/drive/folders/1dVOxOzCX1jiRDrsDS9F-lkYgbvO2LSlz?usp=sharing
 		- Nesse link do drive que coloquei acima, coloquei a última versão do Eclipse e do JDK que são necessários para instalação do JAVA (Windows);
 		- Também coloquei os arquivos que mencionei nos tópicos acima;
+	- Importante II: pessoal para ter aquele debugger do ANTLR4 que vai testando a análise sintátiva e léxica durante a edição você precisam
+		- Vá no menu Help depois em Eclipse Marketplace, daí pesquise pelo plugin ANTLR 4 IDE 0.3.6;
+		- Intala ele e reinicia o eclipse, daí o código do arquivo IsiLang.g4 vai ser interpretado em tempo real; 
+
+- Pontos importantes que devemos fazer na linguagem do projeto:
+	- A linguagem do projeto tem recursividade à esquerda, precisamos eliminar isso (Aula 7 - minuto 21:00);
+	- Ela pode ter necessidade de fatoração à esquerda;
+	- Em suma, ela não está LL1, temos que colocá-la em LL1;
+
+- Tutorias (a documentação já é bem sussa):
+	- https://tomassetti.me/antlr-mega-tutorial/
+	- https://pragprog.com/titles/tpantlr2/the-definitive-antlr-4-reference/
+	- https://github.com/antlr/antlr4/blob/master/doc/index.md
+	- https://vepo.medium.com/como-criar-uma-linguagem-usando-antlr4-e-java-ad834fadc2c1
+
+- ANTLR Anotações:
+	- Todas as regras sintáticas devem começar em letras minúsculas;
+	- Todas as regras léxicas devem começar em letras maiúsculas;
