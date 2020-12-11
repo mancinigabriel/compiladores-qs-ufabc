@@ -16,7 +16,6 @@ próxima do Português estruturado.
 		- O professor começa a configurar o ANTLR junto ao Eclipse no minuto 17:00 até o minuto 18:00;
 		- Não é nada muito complexo, já deixei o arquivo no jeito pra encontrar;
 		- Na live o professor vai esquecer de compartilhar os passos, mas vocês podem seguir o áudio que vai dar certo (posso ajudar, se precisar);
-
 	- Importante: https://drive.google.com/drive/folders/1dVOxOzCX1jiRDrsDS9F-lkYgbvO2LSlz?usp=sharing
 		- Nesse link do drive que coloquei acima, coloquei a última versão do Eclipse e do JDK que são necessários para instalação do JAVA (Windows);
 		- Também coloquei os arquivos que mencionei nos tópicos acima;
