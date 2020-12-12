@@ -37,3 +37,7 @@ próxima do Português estruturado.
 - ANTLR Anotações:
 	- Todas as regras sintáticas devem começar em letras minúsculas;
 	- Todas as regras léxicas devem começar em letras maiúsculas;
+
+- Como gerar o transpilador: java `-cp .:antlr-4.7.1-complete.jar org.antlr.v4.Tool IsiLang.g4 -package br.com.IsiLanguage.parser -o ./src/br/com/IsiLanguage/parser/`
+
+- Como compilar um código da IsiLanguage: 
