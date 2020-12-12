@@ -1,16 +1,16 @@
 // Generated from IsiLang.g4 by ANTLR 4.7.1
-package br.com.professorisidro.isilanguage.parser;
+package br.com.IsiLanguage.parser;
 
-	import br.com.professorisidro.isilanguage.datastructures.IsiSymbol;
-	import br.com.professorisidro.isilanguage.datastructures.IsiVariable;
-	import br.com.professorisidro.isilanguage.datastructures.IsiSymbolTable;
-	import br.com.professorisidro.isilanguage.exceptions.IsiSemanticException;
-	import br.com.professorisidro.isilanguage.ast.IsiProgram;
-	import br.com.professorisidro.isilanguage.ast.AbstractCommand;
-	import br.com.professorisidro.isilanguage.ast.CommandLeitura;
-	import br.com.professorisidro.isilanguage.ast.CommandEscrita;
-	import br.com.professorisidro.isilanguage.ast.CommandAtribuicao;
-	import br.com.professorisidro.isilanguage.ast.CommandDecisao;
+	import br.com.IsiLanguage.datastructures.IsiSymbol;
+	import br.com.IsiLanguage.datastructures.IsiVariable;
+	import br.com.IsiLanguage.datastructures.IsiSymbolTable;
+	import br.com.IsiLanguage.exceptions.IsiSemanticException;
+	import br.com.IsiLanguage.ast.IsiProgram;
+	import br.com.IsiLanguage.ast.AbstractCommand;
+	import br.com.IsiLanguage.ast.CommandLeitura;
+	import br.com.IsiLanguage.ast.CommandEscrita;
+	import br.com.IsiLanguage.ast.CommandAtribuicao;
+	import br.com.IsiLanguage.ast.CommandDecisao;
 	import java.util.ArrayList;
 	import java.util.Stack;
 

@@ -1,4 +1,4 @@
-package br.com.professorisidro.isilanguage.ast;
+package br.com.IsiLanguage.ast;
 
 import java.util.ArrayList;
 

@@ -1,11 +1,11 @@
-package br.com.professorisidro.isilanguage.ast;
+package br.com.IsiLanguage.ast;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-import br.com.professorisidro.isilanguage.datastructures.IsiSymbol;
-import br.com.professorisidro.isilanguage.datastructures.IsiSymbolTable;
+import br.com.IsiLanguage.datastructures.IsiSymbol;
+import br.com.IsiLanguage.datastructures.IsiSymbolTable;
 
 public class IsiProgram {
 	private IsiSymbolTable varTable;

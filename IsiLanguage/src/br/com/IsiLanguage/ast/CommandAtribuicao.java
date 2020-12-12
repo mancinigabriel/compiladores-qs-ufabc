@@ -1,6 +1,6 @@
-package br.com.professorisidro.isilanguage.ast;
+package br.com.IsiLanguage.ast;
 
-import br.com.professorisidro.isilanguage.datastructures.IsiVariable;
+import br.com.IsiLanguage.datastructures.IsiVariable;
 
 public class CommandAtribuicao extends AbstractCommand{
 

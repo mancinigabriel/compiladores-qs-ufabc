@@ -1,4 +1,4 @@
-package br.com.professorisidro.isilanguage.ast;
+package br.com.IsiLanguage.ast;
 
 public class CommandEscrita extends AbstractCommand {
 
