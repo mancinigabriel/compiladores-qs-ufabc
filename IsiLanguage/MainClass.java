@@ -15,5 +15,7 @@ System.out.println(b);}
 
 c = 1;
 while (c<10) {
-System.out.println(c);c = c+1;}
+System.out.println(c);
+c = c+1;
+}
   }}
