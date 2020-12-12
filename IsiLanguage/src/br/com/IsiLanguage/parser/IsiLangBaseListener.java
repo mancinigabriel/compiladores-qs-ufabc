@@ -1,18 +1,19 @@
 // Generated from IsiLang.g4 by ANTLR 4.7.1
 package br.com.IsiLanguage.parser;
 
-import br.com.IsiLanguage.datastructures.IsiSymbol;
-import br.com.IsiLanguage.datastructures.IsiVariable;
-import br.com.IsiLanguage.datastructures.IsiSymbolTable;
-import br.com.IsiLanguage.exceptions.IsiSemanticException;
-import br.com.IsiLanguage.ast.IsiProgram;
-import br.com.IsiLanguage.ast.AbstractCommand;
-import br.com.IsiLanguage.ast.CommandLeitura;
-import br.com.IsiLanguage.ast.CommandEscrita;
-import br.com.IsiLanguage.ast.CommandAtribuicao;
-import br.com.IsiLanguage.ast.CommandDecisao;
-import java.util.ArrayList;
-import java.util.Stack;
+	import br.com.IsiLanguage.datastructures.IsiSymbol;
+	import br.com.IsiLanguage.datastructures.IsiVariable;
+	import br.com.IsiLanguage.datastructures.IsiSymbolTable;
+	import br.com.IsiLanguage.exceptions.IsiSemanticException;
+	import br.com.IsiLanguage.ast.IsiProgram;
+	import br.com.IsiLanguage.ast.AbstractCommand;
+	import br.com.IsiLanguage.ast.CommandLeitura;
+	import br.com.IsiLanguage.ast.CommandEscrita;
+	import br.com.IsiLanguage.ast.CommandAtribuicao;
+	import br.com.IsiLanguage.ast.CommandDecisao;
+	import br.com.IsiLanguage.ast.CommandEnquanto;
+	import java.util.ArrayList;
+	import java.util.Stack;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -145,6 +146,18 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCmdselecao(IsiLangParser.CmdselecaoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCmdrepeticao(IsiLangParser.CmdrepeticaoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdrepeticao(IsiLangParser.CmdrepeticaoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

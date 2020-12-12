@@ -1,16 +1,17 @@
 grammar IsiLang;
 
 @header{
-	import br.com.professorisidro.isilanguage.datastructures.IsiSymbol;
-	import br.com.professorisidro.isilanguage.datastructures.IsiVariable;
-	import br.com.professorisidro.isilanguage.datastructures.IsiSymbolTable;
-	import br.com.professorisidro.isilanguage.exceptions.IsiSemanticException;
-	import br.com.professorisidro.isilanguage.ast.IsiProgram;
-	import br.com.professorisidro.isilanguage.ast.AbstractCommand;
-	import br.com.professorisidro.isilanguage.ast.CommandLeitura;
-	import br.com.professorisidro.isilanguage.ast.CommandEscrita;
-	import br.com.professorisidro.isilanguage.ast.CommandAtribuicao;
-	import br.com.professorisidro.isilanguage.ast.CommandDecisao;
+	import br.com.IsiLanguage.datastructures.IsiSymbol;
+	import br.com.IsiLanguage.datastructures.IsiVariable;
+	import br.com.IsiLanguage.datastructures.IsiSymbolTable;
+	import br.com.IsiLanguage.exceptions.IsiSemanticException;
+	import br.com.IsiLanguage.ast.IsiProgram;
+	import br.com.IsiLanguage.ast.AbstractCommand;
+	import br.com.IsiLanguage.ast.CommandLeitura;
+	import br.com.IsiLanguage.ast.CommandEscrita;
+	import br.com.IsiLanguage.ast.CommandAtribuicao;
+	import br.com.IsiLanguage.ast.CommandDecisao;
+	import br.com.IsiLanguage.ast.CommandEnquanto;
 	import java.util.ArrayList;
 	import java.util.Stack;
 }
@@ -29,8 +30,10 @@ grammar IsiLang;
 	private String _exprID;
 	private String _exprContent;
 	private String _exprDecision;
+	private String _exprEnquanto;
 	private ArrayList<AbstractCommand> listaTrue;
 	private ArrayList<AbstractCommand> listaFalse;
+	private ArrayList<AbstractCommand> listaCmd;
 	
 	public void verificaID(String id){
 		if (!symbolTable.exists(id)){
@@ -102,6 +105,7 @@ cmd		:  cmdleitura
  		|  cmdescrita 
  		|  cmdattrib
  		|  cmdselecao  
+ 		|  cmdrepeticao
 		;
 		
 cmdleitura	: 'leia' AP
@@ -174,6 +178,22 @@ cmdselecao  :  'se' AP
                    	}
                    )?
             ;
+            
+cmdrepeticao	: 'enquanto' AP
+							 ID { _exprEnquanto = _input.LT(-1).getText(); }
+							 OPREL { _exprEnquanto += _input.LT(-1).getText(); }
+							 (ID | NUMBER) {_exprEnquanto += _input.LT(-1).getText(); }
+							 FP
+							 ACH
+							 { curThread = new ArrayList<AbstractCommand>(); 
+		                      stack.push(curThread);
+		                     }
+		                     (cmd)+ 
+							 FCH{listaCmd = stack.pop();
+		                   		 CommandEnquanto cmd = new CommandEnquanto(_exprEnquanto, listaCmd);
+		                   		 stack.peek().add(cmd);
+                   			 }
+                 ;
 			
 expr		:  termo ( 
 	             OP  { _exprContent += _input.LT(-1).getText();}
