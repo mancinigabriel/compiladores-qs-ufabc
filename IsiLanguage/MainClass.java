@@ -6,6 +6,8 @@ double  a;
 double  b;
 double  c;
 String  t1;
+t1 = a;
+System.out.println(t1);
 a= _key.nextDouble();
 b= _key.nextDouble();
 a = 1+2*3/b;
