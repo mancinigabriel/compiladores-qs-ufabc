@@ -19,7 +19,7 @@ public class CommandFazer extends AbstractCommand {
 		for (AbstractCommand cmd: listaCmd) {
 			str.append(cmd.generateJavaCode()+"\n");
 		}
-		str.append("}while(\"+condition+\");");
+		str.append("}while("+condition+");");
 		return str.toString();
 	}
 	@Override

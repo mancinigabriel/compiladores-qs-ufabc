@@ -2,14 +2,13 @@ programa
   
   <* Comentário de bloco da IsiLanguage *>
   
-  numero a, b, c, d;
+  numero a, b, c;
   texto  t1;
   
   t1 = 'teste';
   
   escreva(t1);
 
-  d = 10;	
   leia(a);
   leia(b);
   
@@ -26,7 +25,7 @@ programa
   a > b logo escreva(a); : escreva(b);
   
   
-  c = 1;
+  c = 0;
 
   # Entrando nas estruturas de repetição! - Comentário de Linha
 
@@ -49,5 +48,8 @@ programa
   	c = c + 1;
   	
   }ate(c<=10);
+  
+  
+
 
 fimprog;
