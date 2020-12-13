@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import br.com.IsiLanguage.datastructures.IsiSymbol;
 import br.com.IsiLanguage.datastructures.IsiSymbolTable;
+import br.com.IsiLanguage.datastructures.IsiVariable;
+import br.com.IsiLanguage.exceptions.IsiSemanticException;
 
 public class IsiProgram {
 	private IsiSymbolTable varTable;
@@ -61,5 +63,20 @@ public class IsiProgram {
 	public void setProgramName(String programName) {
 		this.programName = programName;
 	}
+	
+	public void verifyTable() {
+		for (IsiSymbol symbol : this.varTable.getAll()) {
+				IsiVariable var = (IsiVariable)symbol;
+				
+				if(var.getAtt_count() == 0) {
+					throw new IsiSemanticException("Variable "+var.getName()+" has not been assigned.");
+				}
+				
+				if(var.getUse_count() == 0) {
+					throw new IsiSemanticException("Variable "+var.getName()+" is not used");
+				}
+			}
+
+		}
 
 }
