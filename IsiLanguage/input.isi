@@ -2,9 +2,10 @@ programa
   
   <* Comentário de bloco da IsiLanguage *>
   
-  numero a, b, c;
+  numero a, b, c, d;
   texto  t1;
 
+  d = 10;	
   leia(a);
   leia(b);
   

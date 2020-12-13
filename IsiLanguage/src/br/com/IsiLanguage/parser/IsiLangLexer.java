@@ -121,6 +121,10 @@ public class IsiLangLexer extends Lexer {
 		private ArrayList<AbstractCommand> listaFalse;
 		private ArrayList<AbstractCommand> listaCmd;
 		
+		public IsiSymbol getSymbolByID(String id){
+			return symbolTable.get(id);
+		}	
+		
 		public void verificaID(String id){
 			if (!symbolTable.exists(id)){
 				throw new IsiSemanticException("Symbol "+id+" not declared");
@@ -131,6 +135,10 @@ public class IsiLangLexer extends Lexer {
 			for (AbstractCommand c: program.getComandos()){
 				System.out.println(c);
 			}
+		}
+		
+		public void verifyVariables(){
+			program.verifyTable();
 		}
 		
 		public void generateCode(){

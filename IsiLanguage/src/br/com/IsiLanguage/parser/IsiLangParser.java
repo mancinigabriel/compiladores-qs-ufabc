@@ -130,6 +130,10 @@ public class IsiLangParser extends Parser {
 		private ArrayList<AbstractCommand> listaFalse;
 		private ArrayList<AbstractCommand> listaCmd;
 		
+		public IsiSymbol getSymbolByID(String id){
+			return symbolTable.get(id);
+		}	
+		
 		public void verificaID(String id){
 			if (!symbolTable.exists(id)){
 				throw new IsiSemanticException("Symbol "+id+" not declared");
@@ -140,6 +144,10 @@ public class IsiLangParser extends Parser {
 			for (AbstractCommand c: program.getComandos()){
 				System.out.println(c);
 			}
+		}
+		
+		public void verifyVariables(){
+			program.verifyTable();
 		}
 		
 		public void generateCode(){
@@ -189,6 +197,7 @@ public class IsiLangParser extends Parser {
 			           	
 			           	  program.setVarTable(symbolTable);
 			           	  program.setComandos(stack.pop());
+			           	  verifyVariables();           	  
 			           	 
 			           
 			}
@@ -617,7 +626,11 @@ public class IsiLangParser extends Parser {
 
 			              	IsiVariable var = (IsiVariable)symbolTable.get(_readID);
 			              	CommandLeitura cmd = new CommandLeitura(_readID, var);
+			              	IsiSymbol symbolLeitura = getSymbolByID(_readID);
+			               	IsiVariable variableLeitura = (IsiVariable)symbolLeitura;
+			               	variableLeitura.setValue("x");              	
 			              	stack.peek().add(cmd);
+			              	
 			              
 			}
 		}
@@ -672,6 +685,9 @@ public class IsiLangParser extends Parser {
 			match(SC);
 
 			               	  CommandEscrita cmd = new CommandEscrita(_writeID);
+				              	IsiSymbol symbolEscrita = getSymbolByID(_writeID);
+				               	IsiVariable variableEscrita = (IsiVariable)symbolEscrita;
+				               	String x = variableEscrita.getValue();                   	  
 			               	  stack.peek().add(cmd);
 			               
 			}
@@ -728,6 +744,9 @@ public class IsiLangParser extends Parser {
 			match(SC);
 
 			               	 CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
+			                 IsiSymbol symbolAtt = getSymbolByID(_exprID);
+			               	 IsiVariable variableAtt = (IsiVariable)symbolAtt;
+			               	 variableAtt.setValue(_exprContent);
 			               	 stack.peek().add(cmd);
 			               
 			}
@@ -793,7 +812,10 @@ public class IsiLangParser extends Parser {
 			match(AP);
 			setState(104);
 			match(ID);
-			 _exprDecision = _input.LT(-1).getText(); 
+			 _exprDecision = _input.LT(-1).getText();
+			                    		IsiSymbol symbol = getSymbolByID(_exprDecision);
+				               			IsiVariable variable = (IsiVariable)symbol;
+				               			String s = variable.getValue();     
 			setState(106);
 			match(OPREL);
 			 _exprDecision += _input.LT(-1).getText(); 
@@ -807,7 +829,15 @@ public class IsiLangParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			_exprDecision += _input.LT(-1).getText(); 
+			String var = _input.LT(-1).getText();
+			                   				  	_exprDecision += var;
+			                   				  	if(symbolTable.exists(var)){
+				                   					IsiSymbol symbolSelecao = getSymbolByID(var);
+					               					IsiVariable variableSelecao = (IsiVariable)symbolSelecao;
+					               					String w = variableSelecao.getValue();
+					               				}   
+			                   				  	
+			                      
 			setState(110);
 			match(FP);
 			setState(111);
@@ -933,7 +963,14 @@ public class IsiLangParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			 _exprDecision = _input.LT(-1).getText(); 
+			 String var = _input.LT(-1).getText();
+									_exprDecision = var;
+			       				  	if(symbolTable.exists(var)){
+			           					IsiSymbol symbol = getSymbolByID(var);
+			           					IsiVariable variable = (IsiVariable)symbol;
+			           					String w = variable.getValue();
+			           				}   						
+								
 			setState(135);
 			match(OPREL);
 			 _exprDecision += _input.LT(-1).getText(); 
@@ -947,7 +984,15 @@ public class IsiLangParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			_exprDecision += _input.LT(-1).getText(); 
+			String var2 = _input.LT(-1).getText();
+			                   				  	_exprDecision += var2;
+			                   				  	if(symbolTable.exists(var2)){
+				                   					IsiSymbol symbolTernario = getSymbolByID(var2);
+					               					IsiVariable variableTernario = (IsiVariable)symbolTernario;
+					               					String t = variableTernario.getValue();
+					               				}   
+			                   				  	
+			                      
 			setState(139);
 			match(T__8);
 			 
@@ -1033,7 +1078,10 @@ public class IsiLangParser extends Parser {
 			match(AP);
 			setState(150);
 			match(ID);
-			 _exprEnquanto = _input.LT(-1).getText(); 
+			 _exprEnquanto = _input.LT(-1).getText();
+												IsiSymbol symbol = getSymbolByID(_exprEnquanto);
+						               			IsiVariable variable = (IsiVariable)symbol;
+						               			String x = variable.getValue();     
 			setState(152);
 			match(OPREL);
 			 _exprEnquanto += _input.LT(-1).getText(); 
@@ -1047,7 +1095,14 @@ public class IsiLangParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			_exprEnquanto += _input.LT(-1).getText();
+			 String var = _input.LT(-1).getText();
+			                   				  	_exprEnquanto += var;
+			                   				  	if(symbolTable.exists(var)){
+				                   					IsiSymbol symbolEnquanto = getSymbolByID(var);
+					               					IsiVariable variableEnquanto = (IsiVariable)symbolEnquanto;
+					               					String y = variableEnquanto.getValue();
+					               				} 
+					               			
 			setState(156);
 			match(FP);
 			setState(157);
@@ -1148,7 +1203,14 @@ public class IsiLangParser extends Parser {
 				{
 				setState(171);
 				match(ID);
-				 _exprParaInit += _input.LT(-1).getText();
+				 String var = _input.LT(-1).getText();
+												_exprParaInit += var;
+				               				  	if(symbolTable.exists(var)){
+				                   					IsiSymbol symbol = getSymbolByID(var);
+					               					IsiVariable variable = (IsiVariable)symbol;
+					               					String x = variable.getValue();
+					               				}								
+											
 				setState(173);
 				match(ATTR);
 				 _exprParaInit += _input.LT(-1).getText(); 
@@ -1162,7 +1224,17 @@ public class IsiLangParser extends Parser {
 					_errHandler.reportMatch(this);
 					consume();
 				}
-				 _exprParaInit += _input.LT(-1).getText();
+				 
+				               				String var2 = _input.LT(-1).getText();
+				               				_exprParaInit += var2;
+				           				  	if(symbolTable.exists(var2)){
+				               					IsiSymbol symbol2 = getSymbolByID(var2);
+				               					IsiVariable variable2 = (IsiVariable)symbol2;
+				               					String y = variable2.getValue();
+				               				}	               				
+				               			
+				               			
+				               			
 				}
 			}
 
@@ -1178,7 +1250,15 @@ public class IsiLangParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			 _exprParaCond = _input.LT(-1).getText(); 
+
+								  		 	_exprParaCond = _input.LT(-1).getText(); 
+			           				  		if(symbolTable.exists(_exprParaCond)){
+			               						IsiSymbol symbolSendo = getSymbolByID(_exprParaCond);
+			               						IsiVariable variableSendo = (IsiVariable)symbolSendo;
+			               						String z = variableSendo.getValue();
+			               					}					  
+								  
+								  		
 			setState(182);
 			match(OPREL);
 			 _exprParaCond += _input.LT(-1).getText(); 
@@ -1192,7 +1272,15 @@ public class IsiLangParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			_exprParaCond += _input.LT(-1).getText(); 
+
+								  			 	String expParaCond = _input.LT(-1).getText(); 	
+								  			 	_exprParaCond += expParaCond;
+				           				  		if(symbolTable.exists(expParaCond)){
+				               						IsiSymbol symbolSendoCond = getSymbolByID(expParaCond);
+				               						IsiVariable variableSendoCond = (IsiVariable)symbolSendoCond;
+				               						String c = variableSendoCond.getValue();
+				               					}						  			 	
+								  			 
 			setState(186);
 			match(T__14);
 			setState(197);
@@ -1202,13 +1290,28 @@ public class IsiLangParser extends Parser {
 				{
 				setState(187);
 				match(ID);
-				 _exprParaMuda = _input.LT(-1).getText();
+
+									  				 _exprParaMuda = _input.LT(-1).getText();
+					           				  		if(symbolTable.exists(_exprParaMuda)){
+					               						IsiSymbol symbolParaMuda = getSymbolByID(_exprParaMuda);
+					               						IsiVariable variableParaMuda = (IsiVariable)symbolParaMuda;
+					               						String pm = variableParaMuda.getValue();
+					               					}						  				 
+									  				
+									  			
 				setState(189);
 				match(ATTR);
 				 _exprParaMuda += _input.LT(-1).getText(); 
 				setState(191);
 				match(ID);
-				 _exprParaMuda += _input.LT(-1).getText();
+				  String varPM = _input.LT(-1).getText();
+									  			  		_exprParaMuda += varPM;
+						           				  		if(symbolTable.exists(varPM)){
+						               						IsiSymbol symbolPM = getSymbolByID(varPM);
+						               						IsiVariable variablePM = (IsiVariable)symbolPM;
+						               						String pm = variablePM.getValue();
+						               					}						  			  		
+									  			  	
 				setState(193);
 				match(OP);
 				 _exprParaMuda += _input.LT(-1).getText(); 
@@ -1222,7 +1325,16 @@ public class IsiLangParser extends Parser {
 					_errHandler.reportMatch(this);
 					consume();
 				}
-				 _exprParaMuda += _input.LT(-1).getText();
+				 
+				               					 		String var = _input.LT(-1).getText();
+				               					 		_exprParaMuda += var;
+						           				  		if(symbolTable.exists(var)){
+						               						IsiSymbol symbolPM = getSymbolByID(var);
+						               						IsiVariable variablePM = (IsiVariable)symbolPM;
+						               						String pm = variablePM.getValue();
+						               					}	               					 		
+				               					 		
+				               					 		
 				}
 			}
 
@@ -1346,7 +1458,14 @@ public class IsiLangParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			 _exprFazer = _input.LT(-1).getText(); 
+			 
+								  					_exprFazer = _input.LT(-1).getText(); 
+				                   				  	if(symbolTable.exists(_exprFazer)){
+					                   					IsiSymbol symbol = getSymbolByID(_exprFazer);
+						               					IsiVariable variable = (IsiVariable)symbol;
+						               					String x = variable.getValue();
+						               				}  					  				
+								  				
 			setState(223);
 			match(OPREL);
 			 _exprFazer += _input.LT(-1).getText(); 
@@ -1360,7 +1479,16 @@ public class IsiLangParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			 _exprFazer += _input.LT(-1).getText(); 
+			 
+								  					String var = _input.LT(-1).getText(); 
+								  					_exprFazer += var;
+				                   				  	if(symbolTable.exists(var)){
+					                   					IsiSymbol symbol = getSymbolByID(var);
+						               					IsiVariable variable = (IsiVariable)symbol;
+						               					String x = variable.getValue();
+						               				}					  					
+								  					
+								  					
 			setState(227);
 			match(FP);
 			setState(228);
@@ -1477,7 +1605,12 @@ public class IsiLangParser extends Parser {
 				setState(240);
 				match(ID);
 				 verificaID(_input.LT(-1).getText());
-					               _exprContent += _input.LT(-1).getText();
+									String var = _input.LT(-1).getText();
+					               _exprContent += var;
+					               	IsiSymbol symbol = getSymbolByID(var);
+						    		IsiVariable variable = (IsiVariable)symbol;
+						            String x = variable.getValue();
+					               
 				                 
 				}
 				break;

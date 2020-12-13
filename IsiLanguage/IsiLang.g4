@@ -42,6 +42,10 @@ grammar IsiLang;
 	private ArrayList<AbstractCommand> listaFalse;
 	private ArrayList<AbstractCommand> listaCmd;
 	
+	public IsiSymbol getSymbolByID(String id){
+		return symbolTable.get(id);
+	}	
+	
 	public void verificaID(String id){
 		if (!symbolTable.exists(id)){
 			throw new IsiSemanticException("Symbol "+id+" not declared");
@@ -52,6 +56,10 @@ grammar IsiLang;
 		for (AbstractCommand c: program.getComandos()){
 			System.out.println(c);
 		}
+	}
+	
+	public void verifyVariables(){
+		program.verifyTable();
 	}
 	
 	public void generateCode(){
@@ -65,6 +73,7 @@ prog	: 'programa' decl bloco  'fimprog;'
            	
            	  program.setVarTable(symbolTable);
            	  program.setComandos(stack.pop());
+           	  verifyVariables();           	  
            	 
            } 
 		;
@@ -131,7 +140,11 @@ cmdleitura	: 'leia' AP
               {
               	IsiVariable var = (IsiVariable)symbolTable.get(_readID);
               	CommandLeitura cmd = new CommandLeitura(_readID, var);
+              	IsiSymbol symbolLeitura = getSymbolByID(_readID);
+               	IsiVariable variableLeitura = (IsiVariable)symbolLeitura;
+               	variableLeitura.setValue("x");              	
               	stack.peek().add(cmd);
+              	
               }   
 			;
 			
@@ -144,6 +157,9 @@ cmdescrita	: 'escreva'
                  SC
                {
                	  CommandEscrita cmd = new CommandEscrita(_writeID);
+	              	IsiSymbol symbolEscrita = getSymbolByID(_writeID);
+	               	IsiVariable variableEscrita = (IsiVariable)symbolEscrita;
+	               	String x = variableEscrita.getValue();                   	  
                	  stack.peek().add(cmd);
                }
 			;
@@ -156,15 +172,29 @@ cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
                SC
                {
                	 CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
+                 IsiSymbol symbolAtt = getSymbolByID(_exprID);
+               	 IsiVariable variableAtt = (IsiVariable)symbolAtt;
+               	 variableAtt.setValue(_exprContent);
                	 stack.peek().add(cmd);
                }
 			;
 			
 			
 cmdselecao  :  'se' AP
-                    ID    { _exprDecision = _input.LT(-1).getText(); }
+                    ID    { _exprDecision = _input.LT(-1).getText();
+                    		IsiSymbol symbol = getSymbolByID(_exprDecision);
+	               			IsiVariable variable = (IsiVariable)symbol;
+	               			String s = variable.getValue();     }
                     OPREL { _exprDecision += _input.LT(-1).getText(); }
-                    (ID | NUMBER) {_exprDecision += _input.LT(-1).getText(); }
+                    (ID | NUMBER) {String var = _input.LT(-1).getText();
+                   				  	_exprDecision += var;
+                   				  	if(symbolTable.exists(var)){
+	                   					IsiSymbol symbolSelecao = getSymbolByID(var);
+		               					IsiVariable variableSelecao = (IsiVariable)symbolSelecao;
+		               					String w = variableSelecao.getValue();
+		               				}   
+                   				  	
+                      }
                     FP 
                     ACH 
                     { curThread = new ArrayList<AbstractCommand>(); 
@@ -192,9 +222,24 @@ cmdselecao  :  'se' AP
                    )?
             ;
             
-cmdselecaoternario  : (ID | NUMBER) { _exprDecision = _input.LT(-1).getText(); }
+cmdselecaoternario  : (ID | NUMBER) { String var = _input.LT(-1).getText();
+						_exprDecision = var;
+       				  	if(symbolTable.exists(var)){
+           					IsiSymbol symbol = getSymbolByID(var);
+           					IsiVariable variable = (IsiVariable)symbol;
+           					String w = variable.getValue();
+           				}   						
+					}
                     OPREL { _exprDecision += _input.LT(-1).getText(); }
-                    (ID | NUMBER) {_exprDecision += _input.LT(-1).getText(); }
+                    (ID | NUMBER) {String var2 = _input.LT(-1).getText();
+                   				  	_exprDecision += var2;
+                   				  	if(symbolTable.exists(var2)){
+	                   					IsiSymbol symbolTernario = getSymbolByID(var2);
+		               					IsiVariable variableTernario = (IsiVariable)symbolTernario;
+		               					String t = variableTernario.getValue();
+		               				}   
+                   				  	
+                      }
 				    'logo'
                     { 
                       curThread = new ArrayList<AbstractCommand>(); 
@@ -218,9 +263,19 @@ cmdselecaoternario  : (ID | NUMBER) { _exprDecision = _input.LT(-1).getText(); }
             ; 
             
 cmdrepeticao	: 'enquanto' AP
-							 ID { _exprEnquanto = _input.LT(-1).getText(); }
+							 ID { _exprEnquanto = _input.LT(-1).getText();
+									IsiSymbol symbol = getSymbolByID(_exprEnquanto);
+			               			IsiVariable variable = (IsiVariable)symbol;
+			               			String x = variable.getValue();     }
 							 OPREL { _exprEnquanto += _input.LT(-1).getText(); }
-							 (ID | NUMBER) {_exprEnquanto += _input.LT(-1).getText();}
+							 (ID | NUMBER) { String var = _input.LT(-1).getText();
+                   				  	_exprEnquanto += var;
+                   				  	if(symbolTable.exists(var)){
+	                   					IsiSymbol symbolEnquanto = getSymbolByID(var);
+		               					IsiVariable variableEnquanto = (IsiVariable)symbolEnquanto;
+		               					String y = variableEnquanto.getValue();
+		               				} 
+		               			}
 							 FP
 							 ACH
 							 { curThread = new ArrayList<AbstractCommand>(); 
@@ -234,17 +289,78 @@ cmdrepeticao	: 'enquanto' AP
                  ;
                  
                  
-cmdrepeticaopara	: 'repita' AP 'para' { _exprParaInit = "";} (ID { _exprParaInit += _input.LT(-1).getText();} 
-               							 ATTR { _exprParaInit += _input.LT(-1).getText(); } 
-               							 (ID | NUMBER) { _exprParaInit += _input.LT(-1).getText();})? 
-					  'sendo' (ID | NUMBER) { _exprParaCond = _input.LT(-1).getText(); } 
+cmdrepeticaopara	: 'repita' AP 'para' { _exprParaInit = "";} 
+
+						(ID { String var = _input.LT(-1).getText();
+								_exprParaInit += var;
+               				  	if(symbolTable.exists(var)){
+                   					IsiSymbol symbol = getSymbolByID(var);
+	               					IsiVariable variable = (IsiVariable)symbol;
+	               					String x = variable.getValue();
+	               				}								
+							} 
+						
+               			ATTR { _exprParaInit += _input.LT(-1).getText(); } 
+               			(ID | NUMBER) { 
+               				String var2 = _input.LT(-1).getText();
+               				_exprParaInit += var2;
+           				  	if(symbolTable.exists(var2)){
+               					IsiSymbol symbol2 = getSymbolByID(var2);
+               					IsiVariable variable2 = (IsiVariable)symbol2;
+               					String y = variable2.getValue();
+               				}	               				
+               			
+               			
+               			})? 
+						
+					  'sendo' (ID | NUMBER) {
+					  		 	_exprParaCond = _input.LT(-1).getText(); 
+           				  		if(symbolTable.exists(_exprParaCond)){
+               						IsiSymbol symbolSendo = getSymbolByID(_exprParaCond);
+               						IsiVariable variableSendo = (IsiVariable)symbolSendo;
+               						String z = variableSendo.getValue();
+               					}					  
+					  
+					  		} 
 					  			 OPREL { _exprParaCond += _input.LT(-1).getText(); } 
-					  			 (ID | NUMBER) {_exprParaCond += _input.LT(-1).getText(); }
-					  'passo'  (ID { _exprParaMuda = _input.LT(-1).getText();}
+					  			 (ID | NUMBER) {
+					  			 	String expParaCond = _input.LT(-1).getText(); 	
+					  			 	_exprParaCond += expParaCond;
+	           				  		if(symbolTable.exists(expParaCond)){
+	               						IsiSymbol symbolSendoCond = getSymbolByID(expParaCond);
+	               						IsiVariable variableSendoCond = (IsiVariable)symbolSendoCond;
+	               						String c = variableSendoCond.getValue();
+	               					}						  			 	
+					  			 }
+					  'passo'  (ID {
+					  				 _exprParaMuda = _input.LT(-1).getText();
+	           				  		if(symbolTable.exists(_exprParaMuda)){
+	               						IsiSymbol symbolParaMuda = getSymbolByID(_exprParaMuda);
+	               						IsiVariable variableParaMuda = (IsiVariable)symbolParaMuda;
+	               						String pm = variableParaMuda.getValue();
+	               					}						  				 
+					  				
+					  			}
 					  			  ATTR { _exprParaMuda += _input.LT(-1).getText(); }
-					  			  ID { _exprParaMuda += _input.LT(-1).getText();} 
+					  			  ID {  String varPM = _input.LT(-1).getText();
+					  			  		_exprParaMuda += varPM;
+		           				  		if(symbolTable.exists(varPM)){
+		               						IsiSymbol symbolPM = getSymbolByID(varPM);
+		               						IsiVariable variablePM = (IsiVariable)symbolPM;
+		               						String pm = variablePM.getValue();
+		               					}						  			  		
+					  			  	} 
                					  OP { _exprParaMuda += _input.LT(-1).getText(); } 
-               					 (ID | NUMBER) { _exprParaMuda += _input.LT(-1).getText();})? 
+               					 (ID | NUMBER) { 
+               					 		String var = _input.LT(-1).getText();
+               					 		_exprParaMuda += var;
+		           				  		if(symbolTable.exists(var)){
+		               						IsiSymbol symbolPM = getSymbolByID(var);
+		               						IsiVariable variablePM = (IsiVariable)symbolPM;
+		               						String pm = variablePM.getValue();
+		               					}	               					 		
+               					 		
+               					 		})? 
 					  		  FP
 							 ACH
 							 { curThread = new ArrayList<AbstractCommand>(); 
@@ -269,9 +385,25 @@ cmdrepeticaofazer	: 'execute'
 							 FCH
 					  'ate' 
 							  AP
-					  			(ID | NUMBER) { _exprFazer = _input.LT(-1).getText(); } 
+					  			(ID | NUMBER) { 
+					  					_exprFazer = _input.LT(-1).getText(); 
+	                   				  	if(symbolTable.exists(_exprFazer)){
+		                   					IsiSymbol symbol = getSymbolByID(_exprFazer);
+			               					IsiVariable variable = (IsiVariable)symbol;
+			               					String x = variable.getValue();
+			               				}  					  				
+					  				} 
 					  			 OPREL { _exprFazer += _input.LT(-1).getText(); } 
-					  			(ID | NUMBER) { _exprFazer += _input.LT(-1).getText(); }
+					  			(ID | NUMBER) { 
+					  					String var = _input.LT(-1).getText(); 
+					  					_exprFazer += var;
+	                   				  	if(symbolTable.exists(var)){
+		                   					IsiSymbol symbol = getSymbolByID(var);
+			               					IsiVariable variable = (IsiVariable)symbol;
+			               					String x = variable.getValue();
+			               				}					  					
+					  					
+					  					}
 							  FP
 							  SC
 							 {
@@ -289,13 +421,20 @@ expr		:  termo (
 			;
 			
 termo		: ID { verificaID(_input.LT(-1).getText());
-	               _exprContent += _input.LT(-1).getText();
+					String var = _input.LT(-1).getText();
+	               _exprContent += var;
+	               	IsiSymbol symbol = getSymbolByID(var);
+		    		IsiVariable variable = (IsiVariable)symbol;
+		            String x = variable.getValue();
+	               
                  } 
             | 
               NUMBER
               {
               	_exprContent += _input.LT(-1).getText();
               }
+              
+
 			;
 			
 COMMENT
