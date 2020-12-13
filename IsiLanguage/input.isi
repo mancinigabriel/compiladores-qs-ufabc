@@ -4,6 +4,10 @@ programa
   
   numero a, b, c, d;
   texto  t1;
+  
+  t1 = 'teste';
+  
+  escreva(t1);
 
   d = 10;	
   leia(a);

@@ -433,6 +433,10 @@ termo		: ID { verificaID(_input.LT(-1).getText());
               {
               	_exprContent += _input.LT(-1).getText();
               }
+            | TEXT
+			  {
+              	_exprContent += _input.LT(-1).getText();
+              }            
               
 
 			;
@@ -484,5 +488,8 @@ ID	: [a-z] ([a-z] | [A-Z] | [0-9])*
 	
 NUMBER	: [0-9]+ ('.' [0-9]+)?
 		;
+
+TEXT : ('\''.*?'\'')
+ 	 ;
 		
 WS	: (' ' | '\t' | '\n' | '\r') -> skip;
