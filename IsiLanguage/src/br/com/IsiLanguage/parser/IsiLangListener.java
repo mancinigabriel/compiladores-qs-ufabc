@@ -11,7 +11,10 @@ package br.com.IsiLanguage.parser;
 	import br.com.IsiLanguage.ast.CommandEscrita;
 	import br.com.IsiLanguage.ast.CommandAtribuicao;
 	import br.com.IsiLanguage.ast.CommandDecisao;
+	import br.com.IsiLanguage.ast.CommandDecisaoTernario;
 	import br.com.IsiLanguage.ast.CommandEnquanto;
+	import br.com.IsiLanguage.ast.CommandPara;
+	import br.com.IsiLanguage.ast.CommandFazer;
 	import java.util.ArrayList;
 	import java.util.Stack;
 
@@ -123,6 +126,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 */
 	void exitCmdselecao(IsiLangParser.CmdselecaoContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#cmdselecaoternario}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdselecaoternario(IsiLangParser.CmdselecaoternarioContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#cmdselecaoternario}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdselecaoternario(IsiLangParser.CmdselecaoternarioContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#cmdrepeticao}.
 	 * @param ctx the parse tree
 	 */
@@ -132,6 +145,26 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCmdrepeticao(IsiLangParser.CmdrepeticaoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#cmdrepeticaopara}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdrepeticaopara(IsiLangParser.CmdrepeticaoparaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#cmdrepeticaopara}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdrepeticaopara(IsiLangParser.CmdrepeticaoparaContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#cmdrepeticaofazer}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdrepeticaofazer(IsiLangParser.CmdrepeticaofazerContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#cmdrepeticaofazer}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdrepeticaofazer(IsiLangParser.CmdrepeticaofazerContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#expr}.
 	 * @param ctx the parse tree

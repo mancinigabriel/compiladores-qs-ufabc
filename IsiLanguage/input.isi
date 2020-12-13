@@ -1,5 +1,7 @@
 programa
-
+  
+  <* Comentário de bloco da IsiLanguage *>
+  
   numero a, b, c;
   texto  t1;
 
@@ -15,14 +17,32 @@ programa
      escreva (b);
   }
   
+ 
+  a > b logo escreva(a); : escreva(b);
+  
   
   c = 1;
+
+  # Entrando nas estruturas de repetição! - Comentário de Linha
 
   enquanto ( c < 10 ) {
        escreva (c);
        c = c + 1;
   }
   
+  repita ( para a=0 sendo a<10 passo a=a+1) {
   
+  		escreva(c);
+  		escreva(a);
+  		a = 10;
+  
+  }
+  
+  execute{
+  	
+  	escreva(c);
+  	c = c + 1;
+  	
+  }ate(c<=10);
 
 fimprog;
