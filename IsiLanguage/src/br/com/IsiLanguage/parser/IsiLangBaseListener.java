@@ -11,7 +11,10 @@ package br.com.IsiLanguage.parser;
 	import br.com.IsiLanguage.ast.CommandEscrita;
 	import br.com.IsiLanguage.ast.CommandAtribuicao;
 	import br.com.IsiLanguage.ast.CommandDecisao;
+	import br.com.IsiLanguage.ast.CommandDecisaoTernario;
 	import br.com.IsiLanguage.ast.CommandEnquanto;
+	import br.com.IsiLanguage.ast.CommandPara;
+	import br.com.IsiLanguage.ast.CommandFazer;
 	import java.util.ArrayList;
 	import java.util.Stack;
 
@@ -151,6 +154,18 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCmdselecaoternario(IsiLangParser.CmdselecaoternarioContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdselecaoternario(IsiLangParser.CmdselecaoternarioContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCmdrepeticao(IsiLangParser.CmdrepeticaoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -158,6 +173,30 @@ public class IsiLangBaseListener implements IsiLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCmdrepeticao(IsiLangParser.CmdrepeticaoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCmdrepeticaopara(IsiLangParser.CmdrepeticaoparaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdrepeticaopara(IsiLangParser.CmdrepeticaoparaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCmdrepeticaofazer(IsiLangParser.CmdrepeticaofazerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdrepeticaofazer(IsiLangParser.CmdrepeticaofazerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
