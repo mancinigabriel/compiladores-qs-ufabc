@@ -6,7 +6,7 @@ double  a;
 double  b;
 double  c;
 String  t1;
-t1 = a;
+t1 = 'teste';
 System.out.println(t1);
 a= _key.nextDouble();
 b= _key.nextDouble();
@@ -19,7 +19,7 @@ if (a>b) {
 System.out.println(a);}else {
 System.out.println(b);}
 
-c = 1;
+c = 0;
 while (c<10) {
 System.out.println(c);
 c = c+1;
@@ -32,5 +32,5 @@ a = 10;
 do{
 System.out.println(c);
 c = c+1;
-}while("+condition+");
+}while(c<=10);
   }}
